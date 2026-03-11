@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Someone Special ❤️</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  background:black;
+  color:white;
+  font-family:Arial, sans-serif;
+  text-align:center;
+}
+
+h1{font-size:24px; padding:20px;}
+
+button{
+  padding:12px 22px;
+  font-size:16px;
+  border:none;
+  border-radius:25px;
+  margin:10px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+#yes{
+  background:#ff1744;
+  color:white;
+  box-shadow:0 0 20px #ff1744;
+}
+
+#no{
+  background:white;
+  color:black;
+  position:absolute;
+}
+
+.heart{
+  position:absolute;
+  font-size:20px;
+  animation:fall linear infinite;
+}
+
+@keyframes fall{
+  0%{transform:translateY(-10vh);}
+  100%{transform:translateY(110vh);}
+}
+
+.shake{
+  animation:shake 0.15s infinite;
+}
+
+@keyframes shake{
+  0%{transform:translate(3px,3px);}
+  50%{transform:translate(-3px,-3px);}
+  100%{transform:translate(3px,-3px);}
+}
+</style>
+</head>
+
+<body>
+
+<h1 id="question"></h1>
+<div>
+  <button id="yes"></button>
+  <button id="no"></button>
+</div>
+
+<audio id="bgm" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+</audio>
+
+<script>
+
+// ====== GANTI NAMA DIA DI SINI ======
+const nama = "Kontollll";
+// ====================================
+
+const questions = [
+{
+text:`Hai ${nama} 💖 Kamu lagi senyum nggak sekarang?`,
+yes:"Senyum dong 😊",
+no:"Enggak 😒"
+},
+{
+text:`Kalau aku tiba-tiba ngajak kamu jalan, kamu mau nggak?`,
+yes:"Mau dong 😍",
+no:"Mikir dulu 🤔"
+},
+{
+text:`Kalau aku jadi orang spesial kamu, kamu keberatan nggak?`,
+yes:"Nggak dong ❤️",
+no:"Keberatan 😅"
+},
+{
+text:`Maukah kamu menjadi pacarku, ${nama}? 💖`,
+yes:"YA 💕",
+no:"YAA JUGAA 😈"
+}
+];
+
+let index = 0;
+const q = document.getElementById("question");
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
+
+function loadQuestion(){
+  q.innerHTML = questions[index].text;
+  yesBtn.innerHTML = questions[index].yes;
+  noBtn.innerHTML = questions[index].no;
+}
+
+loadQuestion();
+
+let musicStarted = false;
+
+yesBtn.onclick = function(){
+
+  if(!musicStarted){
+    document.getElementById("bgm").play();
+    musicStarted = true;
+  }
+
+  if(index < questions.length-1){
+    index++;
+    loadQuestion();
+  } else {
+
+    document.body.classList.add("shake");
+
+    for(let i=0;i<200;i++){
+      const heart=document.createElement("div");
+      heart.innerHTML="💖";
+      heart.style.position="absolute";
+      heart.style.left=Math.random()*100+"vw";
+      heart.style.top=Math.random()*100+"vh";
+      heart.style.fontSize="30px";
+      document.body.appendChild(heart);
+    }
+
+    setTimeout(()=>{
+      document.body.innerHTML=
+      `<h1 style="font-size:30px">
+      SEKARANG ${nama.toUpperCase()} RESMI JADI PACARKU, CONGRATS SAYANGKUUU ❤️🔥
+      </h1>`;
+    },2000);
+  }
+};
+
+// tombol salah kabur
+noBtn.onmouseover = function(){
+  const x=Math.random()*(window.innerWidth-100);
+  const y=Math.random()*(window.innerHeight-50);
+  noBtn.style.left=x+"px";
+  noBtn.style.top=y+"px";
+};
+
+// hujan love terus
+function createHeart(){
+  const heart=document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML="💖";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.animationDuration=Math.random()*3+2+"s";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),5000);
+}
+setInterval(createHeart,200);
+
+</script>
+
+</body>
+</html>
